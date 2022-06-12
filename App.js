@@ -2,20 +2,31 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StyleSheet, Text, Button, View } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Details" component={DetailsStackScreen} />
-        <Tab.Screen name="Search" component={Search} />
-      </Tab.Navigator>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="HomeTabs" component={HomeTabsScreen} />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+      </Drawer.Navigator>
     </NavigationContainer>
+  );
+}
+
+function HomeTabsScreen({ navigation }) {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Details" component={DetailsStackScreen} />
+      <Tab.Screen name="Search" component={Search} />
+    </Tab.Navigator>
   );
 }
 
@@ -83,6 +94,18 @@ function FurtherDetails({ navigation }) {
       />
       <Button
         title="Back to the HOME Screen"
+        onPress={() => navigation.navigate("Home")}
+      />
+    </View>
+  );
+}
+
+function SettingsScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text>This is the Settings page</Text>
+      <Button
+        title="Back to the Home Screen"
         onPress={() => navigation.navigate("Home")}
       />
     </View>
